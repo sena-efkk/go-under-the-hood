@@ -6,6 +6,7 @@ type Temperature float64
 type DeviceID uint16
 type DeviceStatus uint8
 
+// deneme
 const (
 	Offline     DeviceStatus = iota // 0
 	Online                          // 1
