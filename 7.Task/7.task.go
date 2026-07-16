@@ -64,7 +64,9 @@ func classifyWeight(weight float64) string {
 	}
 
 	return "Ağır"
+
 	//bu kod diğerinden farkı erken return olayını kullanmasıdır yani else yok
+	//Fonksiyon normal sonuna ulaşmadan, gerekli cevap bulunduğu anda döner.
 }
 
 //func isEven(number int) bool {
@@ -88,6 +90,11 @@ func calculateTotalWeight(weights []float64) float64 {
 	return total
 }
 func calculateAverageWeight(weights []float64) float64 {
+	//bu if olayına kısa koruma yani,
+	if len(weights) == 0 {
+		return 0
+	}
+
 	return calculateTotalWeight(weights) / float64(len(weights))
 }
 
@@ -103,6 +110,10 @@ func main() {
 	//}
 	//fmt.Println(countEvenNumbers(ciftsayilar))
 	//fmt.Println(isEven(ciftsayilar[1]))
+
+	//Boş slice nedir?
+	//
+	//Boş slice, içinde hiç eleman olmayan listedir.
 
 	//fmt.Println(classifyWeight(7400.7))
 

@@ -17,11 +17,10 @@ func countAnimals(animals []string) int {
 }
 
 func isCalf(animal string) bool {
-	if animal == "Buzağı" {
-		return true
-		//Hayvan "Buzağı" ise true döndür
-	}
-	return false
+	return animal == "Buzağı"
+	//Hayvan "Buzağı" ise true döndür
+
+	//daha sade hali kısaca tek bunu yazabilirsin: return animal == "Buzağı"
 }
 
 func countCalves(animals []string) int {
@@ -50,8 +49,10 @@ func containsAnimal(animals []string, target string) bool {
 func countByType(animals []string, target string) int {
 	//İstenen hayvan türünün kaç kez geçtiğini döndür.
 	count := 0
-	if containsAnimal(animals, target) {
-		count++
+	for _, animal := range animals {
+		if animal == target {
+			count++
+		}
 	}
 	return count
 }
@@ -66,6 +67,10 @@ func calculateTotalWeight(weights []float64) float64 {
 }
 
 func calculateAverageWeight(weights []float64) float64 {
+	//boş slice koruması eklenmeli bunu unutma.
+	if len(weights) == 0 {
+		return 0
+	}
 	return calculateTotalWeight(weights) / float64(len(weights))
 	//Önce calculateTotalWeight() fonksiyonunu çağır.
 	//Tekrar ağırlıkları toplama.
@@ -74,10 +79,7 @@ func calculateAverageWeight(weights []float64) float64 {
 
 func isEven(number int) bool {
 	//Sayı çiftse true.
-	if number%2 == 0 {
-		return true
-	}
-	return false
+	return number%2 == 0
 }
 
 func countEvenNumbers(numbers []int) int {
@@ -108,24 +110,106 @@ func classifyNumber(number int) string {
 	}
 
 }
-func classifyWeight(weight float64) string {
-	if weight <= 0 {
-		return "Geçersiz"
+
+func isOdd(number int) bool {
+	return number%2 != 0
+}
+func countOddNumbers(numbers []int) int {
+	count := 0
+	for _, num := range numbers {
+		if isOdd(num) {
+			count++
+		}
+	}
+	return count
+}
+
+func isValidWeight(weight float64) bool {
+	return weight > 0
+}
+func calculateValidWeightTotal(weights []float64) float64 {
+	total := 0.0
+	for _, weight := range weights {
+		if isValidWeight(weight) {
+			total += weight
+		}
+	}
+	return total
+}
+func countValidWeights(weights []float64) int {
+	count := 0
+	for _, weight := range weights {
+		if isValidWeight(weight) {
+			count++
+		}
+	}
+	return count
+}
+
+func calculateValidAverageWeight(weights []float64) float64 {
+	//calculateValidAverageWeight
+	//    ├── calculateValidWeightTotal
+	//    │       └── isValidWeight
+	//    │
+	//    └── countValidWeights
+	//            └── isValidWeight
+	validCount := countValidWeights(weights)
+
+	if validCount == 0 {
+		return 0
 	}
 
-	if weight < 100 {
-		return "Hafif"
+	validTotal := calculateValidWeightTotal(weights)
+
+	return validTotal / float64(validCount)
+}
+
+func filterCalves(animals []string) []string {
+	//Filtreleme fonksiyonunun amacı yalnızca buzağıları içeren yeni bir slice oluşturmaktır.
+	//burayı tamamen anlamalısın.
+	calves := []string{}
+
+	for _, animal := range animals {
+		if isCalf(animal) {
+			calves = append(calves, animal)
+		}
 	}
 
-	if weight < 400 {
-		return "Orta"
-	}
-
-	return "Ağır"
+	return calves
+	//calves isimli boş sonuç listesi oluştur
+	//        ↓
+	//animals listesini dolaş
+	//        ↓
+	//hayvan buzağı mı?
+	//        ↓ evet
+	//sonuç listesine ekle
+	//        ↓
+	//döngü bitince calves listesini döndür
 }
 
 func main() {
+	animals := []string{
+		"İnek",
+		"Buzağı",
+		"Boğa",
+		"Düve",
+		"Buzağı",
+		"İnek",
+	}
+	calves := filterCalves(animals)
+	fmt.Println("Filtrelenen buzağılar:", calves)
+	//gerçekleşen akış:
+	//animals
+	//    ↓
+	//filterCalves
+	//    ↓
+	//yalnızca Buzağı değerlerinden oluşan yeni slice
+	//    ↓
+	//calves değişkeni
 
+	numbers2 := []int{2, 5, 7, 8, 10, 13}
+
+	fmt.Println("tek sayılar kaç adettir: ", countOddNumbers(numbers2))
 	//örnek çıktı
 	//1 - İnek
 	//2 - Buzağı
@@ -151,14 +235,7 @@ func main() {
 
 	//beklenen main akışı:
 	//1. Hayvanları listele.
-	animals := []string{
-		"İnek",
-		"Buzağı",
-		"Boğa",
-		"Düve",
-		"Buzağı",
-		"İnek",
-	}
+
 	printAnimals(animals)
 	//2. Toplam hayvan sayısını yazdır.
 	fmt.Println("Toplam hayvan: ", countAnimals(animals))
