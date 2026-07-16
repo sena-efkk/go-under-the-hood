@@ -2,23 +2,96 @@ package main
 
 import "fmt"
 
+func printAnimals(animals []string) {
+	for index, animal := range animals {
+		fmt.Printf("%d indexsi %s hyayvanım\n", index, animal)
+
+	}
+}
+func isCalf(animal string) bool {
+	return animal == "Buzağı"
+}
+func countAnimals(animals []string) int {
+	return len(animals)
+}
+
+func countCalves(animals []string) int {
+	//count := 0
+	//for i := 0; i < len(animals); i++ {
+	//	if animals[i] == "Buzağı" {
+	//		count++
+	//	}
+	//}
+	//return count
+	count := 0
+
+	for _, animal := range animals {
+		if isCalf(animal) {
+			count++
+		}
+	}
+
+	return count
+}
+
+func findAnimal(animals []string, target string) (string, bool) {
+	for _, animal := range animals {
+		if animal == target {
+			return animal, true
+		}
+	}
+	return "", false
+}
+
+// belirli hayvan turunu sayma fonksiyonu
+func countByType(animals []string, target string) int {
+	total := 0
+	for _, animal := range animals {
+		if animal == target {
+			total++
+		}
+	}
+	return total
+}
+
+// Hayvanın var olup olmadığını kontrol etme
+func containsAnimal(animals []string, target string) bool {
+	for _, animal := range animals {
+		if animal == target {
+			return true
+		}
+	}
+	return false
+}
+
 func main() {
-
-	for i := 0; i < 5; i++ {
-		fmt.Print(i)
+	animals := []string{
+		"kedi",
+		"köpek",
+		"ördek",
+		"Buzağı",
 	}
-	fmt.Println(" ")
 
-	a := 0
-	for a < 5 {
-		fmt.Print(a)
-		a++
+	ani, found := findAnimal(animals, "maymun")
+	if found {
+		fmt.Println("bulunan hayvan :", ani)
+	} else {
+		fmt.Println(" hayvanı bulunamadı.")
 	}
-	fmt.Println()
 
-	sayilar := []int{10, 20, 30}
-
-	for index, deger := range sayilar {
-		fmt.Printf("İndis: %d, Değer: %d\n", index, deger)
+	if containsAnimal(animals, "köpek") {
+		fmt.Println("Listede köpek bulunuyor.")
 	}
+
+	printAnimals(animals)
+
+	result := isCalf("Buzağı")
+	fmt.Println(result)
+
+	if isCalf("Buzağı") {
+		fmt.Println("yaş kontrolu yapılmalıdır.")
+	}
+
+	fmt.Println("toplam hayvan sayısı: ", countAnimals(animals))
+	fmt.Println("buzagı sayısı ektedir: ", countCalves(animals))
 }
